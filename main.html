@@ -1,0 +1,173 @@
+<head>
+  <title>Leaderboard</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+</head>
+
+<template name="_home">
+  <body>
+    <header>
+      <div class="icon">&#8203;</div>
+    </header>
+    <section>
+      <aside class="diagram">
+        {{> diagram}}
+      </aside>
+      <article class="main">
+        <p>{{> level}}</p>
+        <p>{{> add showDate=false}}</p>
+        <p>{{#if admin}}<a href="/admin">ADMIN</a>&emsp;{{/if}}<a href="/bye">LOGOUT</a></p>
+      </article>
+    </section>
+  </body>
+</template>
+
+<template name="locked">
+  <header>
+    <div class="icon">&#8203;</div>
+  </header>
+  <section class="login simple">
+    <h2>723 Competes</h2>
+    <p>Please login</p>
+    {{> loginButtons}}
+  </section>
+</template>
+
+<template name="bye">
+  <header>
+    <div class="icon">&#8203;</div>
+  </header>
+  <section class="bye simple">
+    <h2>Bye.</h2>
+    <p>You have been logged out.&emsp;<a href="/">HOME</a></p>
+  </section>
+</template>
+
+<template name="admin">
+  <body class="admin simple">
+    <header>
+      <div class="icon">&#8203;</div>
+    </header>
+    <section>
+      <h3>Edit People</h3>
+      {{> actions}} 
+    </section>
+    <section>
+      <h3>Recent</h3>
+      {{> recent}}
+    </section>
+    <section class="logout">
+      <a href="/">HOME</a>&emsp;<a href="/bye">LOGOUT</a>
+    </section>
+  </body>
+</template>
+
+<template name="actions">
+  <p>
+    <input class="aname" type="text"/><span>&nbsp;&rightarrow;</span>
+    <select class="agrp">
+      {{#each groupings}}
+        <option value="{{_id}}">{{name}}</option>
+      {{/each}}
+    </select>
+    <button class="addp">Add</button>
+  </p>
+  {{#if notNobody}}
+  <p>
+    <select class="rname">
+      {{#each people}}
+        <option value="{{_id}}">{{name}} ({{parent}})</option>
+      {{/each}}
+    </select><span>&nbsp;&rightarrow;</span>
+    <input class="ralias" type="text"/>
+    <button class="rnp">Rename</button>
+  </p>
+  <p>
+    <select class="ename">
+      {{#each people}}
+        <option value="{{_id}}">{{name}} ({{parent}})</option>
+      {{/each}}
+    </select><span>&nbsp;&rightarrow;</span>
+    <select class="egrp">
+      {{#each groupings}}
+        <option value="{{_id}}">{{name}}</option>
+      {{/each}}
+    </select>
+    <button class="movep">Move</button>
+    <button class="delp">Delete</button>
+  </p>
+  {{/if}}
+</template>
+
+<template name="add">
+  {{#if admin}}
+  {{#if showDate}}
+  <input class="cdate" type="date" value="{{date}}"/>
+  {{else}}
+  <input class="cdate" type="date" value="{{date}}" style="display: none;"/>
+  {{/if}}
+  <select class="people">
+    {{#each people}}
+    <option value="{{_id}}">{{#if isGrouping}}&ndash; {{/if}}{{name}} {{#if isPerson}}({{parent}}){{/if}}</option>
+    {{/each}}
+  </select>
+  <select class="options">
+    {{#each options}}
+    <option value="{{_id}}">{{name}} ({{score}})</option>
+    {{/each}}
+  </select>
+  <button class="add">Add</button>
+  {{/if}}
+</template>
+
+<template name="diagram">
+  <svg id="diagram"></svg>
+</template>
+
+<template name="restrict">
+  <select class="no-width">
+    {{#each options}}
+    <option class="r" value="{{days}}">{{name}}</option>
+    {{/each}}
+  </select>
+</template>
+
+<template name="ranks">
+  <ol>
+    {{#each people}}
+    <li class="child" style="color: {{color}};" value="{{_id}}">
+      {{name}}&ensp;<span class="score">{{score}} <span class="grey">&#9654;&nbsp;{{derivedScore}}</span></span>
+    </li>
+    {{/each}}
+  </ol>
+</template>
+
+<template name="recent">
+  {{> add showDate=true}}
+  <ul>
+    {{#each recent}}
+    <li value="{{_id}}">
+      {{shortFormat date}}&ensp;{{person}}&ensp;{{name}}&ensp;{{score}}&ensp;
+      <button class="delete">&times;</button>
+    </li>
+    {{else}}
+    <li>Nothing here.</li>
+    {{/each}}
+  </ul>
+</template>
+
+<template name="level">
+  {{#with level}}
+  <h2 class="super">{{#if parent}}<button class="up">&#8598;</button>{{/if}} {{name}} <span class="score">{{score}}</span></h2>
+  {{> restrict}}
+  {{> ranks}}
+  <ul>
+    {{#each children}}
+    <li class="child {{type}}" style="color: {{color}};" value="{{_id}}">
+      <span class="clickbait">{{{shortFormat date}}}{{name}}&ensp;<span class="score">{{score}}</span>
+        {{#if isntActivity}}<span class="go">&rightarrow;</span>{{/if}}</span>
+      {{#if admin}}{{#if isActivity}}&ensp;<button class="delete">&times;</button>{{/if}}{{/if}}
+    </li>
+    {{/each}}
+  </ul>
+  {{/with}}
+</template>
