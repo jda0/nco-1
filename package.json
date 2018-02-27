@@ -1,0 +1,25 @@
+{
+  "name": "nco-1",
+  "version": "1.0.0",
+  "main": "common.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jda0/nco-1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jda0/nco-1/issues"
+  },
+  "homepage": "https://github.com/jda0/nco-1#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.40",
+    "bcrypt": "^1.0.3"
+  },
+  "devDependencies": {},
+  "description": ""
+}
