@@ -18,7 +18,7 @@
   "homepage": "https://github.com/jda0/nco-1#readme",
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.40",
-    "bcrypt": "^1.0.3"
+    "bcrypt": "^5.0.0"
   },
   "devDependencies": {},
   "description": ""
